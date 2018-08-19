@@ -23,30 +23,30 @@ public class DatasetService {
 	@Autowired
 	LadderTableEntry ladderTableEntry;
 
-	private CurrentLeagueService currentLeagueService = new CurrentLeagueService();
-	private List<String> leagues = new ArrayList<>();
-	private List<List<LadderTableEntry>> currentDataset = new ArrayList<>();
-	private List<List<LadderTableEntry>> latestDataset = new ArrayList<>();
-	private List<List<LadderTableEntry>> newDataset = new ArrayList<>();
-	private DecimalFormat formatter = new DecimalFormat("#,###");
-	private double amount;
-	private String number;
-	private String latest;
-	private String current;
-	private String difference;
-	private String rankDifference;
-	private String xpPerHour;
-	private String theExperience;
-	private String timeStamp;
-	private String latestRank;
-	private String currentRank;
-	private Long newXPPH, oldXPPH;
-	private Long newRank, oldRank;
-	private String levelProgressBar;
-	private ResponseEntity<Ladder> response;
-	private LadderTableEntry entry;
-	private RestTemplate restTemplate;
-	private List<LadderTableEntry> tableEntries = new ArrayList<>();
+	private static CurrentLeagueService currentLeagueService = new CurrentLeagueService();
+	private static List<String> leagues = new ArrayList<>();
+	private static List<List<LadderTableEntry>> currentDataset = new ArrayList<>();
+	private static List<List<LadderTableEntry>> latestDataset = new ArrayList<>();
+	private static List<List<LadderTableEntry>> newDataset = new ArrayList<>();
+	private static DecimalFormat formatter = new DecimalFormat("#,###");
+	private static double amount;
+	private static String number;
+	private static String latest;
+	private static String current;
+	private static String difference;
+	private static String rankDifference;
+	private static String xpPerHour;
+	private static String theExperience;
+	private static String timeStamp;
+	private static String latestRank;
+	private static String currentRank;
+	private static Long newXPPH, oldXPPH;
+	private static Long newRank, oldRank;
+	private static String levelProgressBar;
+	private static ResponseEntity<Ladder> response;
+	private static LadderTableEntry entry;
+	private static RestTemplate restTemplate;
+	private static List<LadderTableEntry> tableEntries = new ArrayList<>();
 
 	public DatasetService() throws InterruptedException {
 	}
@@ -139,9 +139,9 @@ public class DatasetService {
 						theExperience = formatXp(newDataset.get(i).get(k).getExperience());
 						difference = formatNumber(difference);
 						xpPerHour = formatNumber(xpPerHour);
-						// levelProgressBar =
-						// progressBarService.getProgressPercentage(Integer.parseInt(newDataset.get(i).get(j).getLevel()),
-						// newDataset.get(i).get(j).getExperience().replaceAll(",", ""));
+						
+						levelProgressBar = progressBarService.getProgressPercentage(Integer.parseInt(newDataset.get(i).get(j).getLevel()), newDataset.get(i).get(j).getExperience().replaceAll(",", ""));
+
 
 						newDataset.get(i).get(j).setXph(xpPerHour);
 						newDataset.get(i).get(j).setXphDifference(difference);
@@ -157,12 +157,9 @@ public class DatasetService {
 			}
 		}
 
-		// characterInfoService.save(characterInfo);
 		latestDataset = newDataset;
-		
 		System.out.println("latestDataset size : " + latestDataset.size() + " " +latestDataset.get(1).size());
 		System.out.println("Start SQL Transfer.");
-		
 		
 		for (int i = 0; i < 4; i++) {
 			String theLeague = leagues.get(i);
@@ -173,10 +170,6 @@ public class DatasetService {
 			}
 		}
 		System.out.println("SQL Transfer Complete.");
-		
-
-
-
 	}
 
 	private CharacterInfo mapToCharacterInfo(String league, LadderTableEntry entry) {
@@ -203,30 +196,30 @@ public class DatasetService {
 	public List<LadderTableEntry> getCalculatedDataset(String selectedLeague) {
 		Runtime.getRuntime().gc();
 		switch (selectedLeague) {
-		case "Incursion Event (IRE001)": {
-			System.out.println("getCalculatedDataset() : Incursion Event (IRE001)");
-			Runtime.getRuntime().gc();
-			return latestDataset.get(0);
-		}
-		case "Incursion Event HC (IRE002)": {
-			System.out.println("getCalculatedDataset() : Incursion Event HC (IRE002)");
-			Runtime.getRuntime().gc();
-			return latestDataset.get(1);
-		}
-		case "SSF Incursion Event (IRE003)": {
-			System.out.println("getCalculatedDataset() : SSF Incursion Event (IRE003)");
-			Runtime.getRuntime().gc();
-			return latestDataset.get(2);
-		}
-		case "SSF Incursion Event HC (IRE004)": {
-			System.out.println("getCalculatedDataset() : SSF Incursion Event HC (IRE004)");
-			Runtime.getRuntime().gc();
-			return latestDataset.get(3);
-		}
-
-		default: {
-			return new ArrayList<LadderTableEntry>();
-		}
+			case "Incursion Event (IRE001)": {
+				System.out.println("getCalculatedDataset() : Incursion Event (IRE001)");
+				Runtime.getRuntime().gc();
+				return latestDataset.get(0);
+			}
+			case "Incursion Event HC (IRE002)": {
+				System.out.println("getCalculatedDataset() : Incursion Event HC (IRE002)");
+				Runtime.getRuntime().gc();
+				return latestDataset.get(1);
+			}
+			case "SSF Incursion Event (IRE003)": {
+				System.out.println("getCalculatedDataset() : SSF Incursion Event (IRE003)");
+				Runtime.getRuntime().gc();
+				return latestDataset.get(2);
+			}
+			case "SSF Incursion Event HC (IRE004)": {
+				System.out.println("getCalculatedDataset() : SSF Incursion Event HC (IRE004)");
+				Runtime.getRuntime().gc();
+				return latestDataset.get(3);
+			}
+	
+			default: {
+				return new ArrayList<LadderTableEntry>();
+			}
 		}
 	}
 
