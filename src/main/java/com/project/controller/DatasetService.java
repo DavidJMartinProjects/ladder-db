@@ -15,10 +15,7 @@ import com.project.domain.ladder.Ladder;
 
 @Component
 public class DatasetService {
-	// @Autowired
-	// CharacterInfo characterInfo;
 
-	// CharacterInfo characterInfo = new CharacterInfo();
 	@Autowired
 	UserRepository userRepository;	
 	@Autowired
@@ -27,61 +24,31 @@ public class DatasetService {
 	LadderTableEntry ladderTableEntry;
 
 	private CurrentLeagueService currentLeagueService = new CurrentLeagueService();
-
 	private List<String> leagues = new ArrayList<>();
-
 	private List<List<LadderTableEntry>> currentDataset = new ArrayList<>();
-
 	private List<List<LadderTableEntry>> latestDataset = new ArrayList<>();
-
 	private List<List<LadderTableEntry>> newDataset = new ArrayList<>();
-
 	private DecimalFormat formatter = new DecimalFormat("#,###");
-
 	private double amount;
-
 	private String number;
-
 	private String latest;
-
 	private String current;
-
 	private String difference;
-
 	private String rankDifference;
-
 	private String xpPerHour;
-
 	private String theExperience;
-
 	private String timeStamp;
-
 	private String latestRank;
-
 	private String currentRank;
-
 	private Long newXPPH, oldXPPH;
-
 	private Long newRank, oldRank;
-
 	private String levelProgressBar;
-
 	private ResponseEntity<Ladder> response;
-
 	private LadderTableEntry entry;
-
 	private RestTemplate restTemplate;
-
 	private List<LadderTableEntry> tableEntries = new ArrayList<>();
 
-	// public DatasetService(CharacterInfo characterInfo) throws
-	// InterruptedException {
-	// this.characterInfo = characterInfo;
-	//
-	// }
-
 	public DatasetService() throws InterruptedException {
-
 	}
 
 	public List<List<LadderTableEntry>> getLatestDataSet() throws InterruptedException {
