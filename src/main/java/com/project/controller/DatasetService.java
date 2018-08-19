@@ -20,7 +20,7 @@ public class DatasetService {
 
 	// CharacterInfo characterInfo = new CharacterInfo();
 	@Autowired
-	UserRepository userRepository;
+	UserRepository userRepository;	
 	@Autowired
 	ProgressBarService progressBarService;
 	@Autowired
@@ -116,30 +116,6 @@ public class DatasetService {
 			}
 			newDataset.add(tableEntries);
 			Thread.sleep(500);
-			url = "http://api.pathofexile.com/ladders/" + leagues.get(i) + "?limit=200&offset=200";
-			response = restTemplate.getForEntity(url, Ladder.class);
-
-			j = 0;
-			length = 200; // response.getBody().getEntries().length;
-			for (; j < length; j++) {
-				entry = new LadderTableEntry();
-				entry.setRank(response.getBody().getEntries()[j].getRank());
-				entry.setOnline(response.getBody().getEntries()[j].getOnline());
-				entry.setCharacter(response.getBody().getEntries()[j].getCharacter().getName());
-				entry.setDead(response.getBody().getEntries()[j].getDead());
-				entry.setAccount(response.getBody().getEntries()[j].getAccount().getName());
-				entry.setLevel(response.getBody().getEntries()[j].getCharacter().getLevel());
-				entry.setTheClass(response.getBody().getEntries()[j].getCharacter().getTheClass());
-				entry.setChallenges(response.getBody().getEntries()[j].getAccount().getChallenges().getTotal());
-				entry.setExperience(response.getBody().getEntries()[j].getCharacter().getExperience());
-				if (response.getBody().getEntries()[j].getAccount().getTwitch() != null) {
-					entry.setTwitch(response.getBody().getEntries()[j].getAccount().getTwitch().getName());
-				} else {
-					entry.setTwitch("");
-				}
-				tableEntries.add(entry);
-			}
-			Thread.sleep(500);
 		}
 		if (currentDataset.size() == 0) {
 			currentDataset = newDataset;
@@ -155,8 +131,8 @@ public class DatasetService {
 		newDataset = getLatestDataSet();
 
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 400; j++) {
-				for (int k = 0; k < 400; k++) {
+			for (int j = 0; j < 200; j++) {
+				for (int k = 0; k < 200; k++) {
 					if (newDataset.get(i).get(j).getCharacter().equals(currentDataset.get(i).get(k).getCharacter())) {
 						// character match then calculate xph
 
@@ -219,22 +195,26 @@ public class DatasetService {
 		
 		System.out.println("latestDataset size : " + latestDataset.size() + " " +latestDataset.get(1).size());
 		System.out.println("Start SQL Transfer.");
-		int i = 0;
-		int j = 0;
-		for (; i < 4; i++) {
-			for (; j < 400; j++) {
-				CharacterInfo characterInfo = mapToCharacterInfo(latestDataset.get(i).get(j));
-				userRepository.save(characterInfo);
+		
+		
+		for (int i = 0; i < 4; i++) {
+			String theLeague = leagues.get(i);
+			System.out.println("theLeague : " +theLeague);
+			for (int j = 0; j < 200; j++) {				
+				CharacterInfo characterInfo = mapToCharacterInfo(theLeague, newDataset.get(i).get(j));
+				userRepository.save(characterInfo);			
 			}
 		}
 		System.out.println("SQL Transfer Complete.");
 		
 
 
+
 	}
 
-	private CharacterInfo mapToCharacterInfo(LadderTableEntry entry) {
+	private CharacterInfo mapToCharacterInfo(String league, LadderTableEntry entry) {
 		CharacterInfo characterInfo = new CharacterInfo();
+		characterInfo.setLeague(league);
 		characterInfo.setAccount(entry.getAccount());
 		characterInfo.setChallenges(entry.getChallenges());
 		characterInfo.setCharacter(entry.getCharacter());

@@ -21,6 +21,9 @@ public class CharacterInfo implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+    
+	@Column(name = "league")
+	private String league;
 	
 	@Column(name = "rank")
 	private String rank;
@@ -73,6 +76,18 @@ public class CharacterInfo implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getLeague() {
+		return league;
+	}
+
+	public void setLeague(String league) {
+		this.league = league;
 	}
 
 	public String getRank() {
