@@ -194,7 +194,12 @@ public class DatasetService {
 			System.out.println("theLeague : " +theLeague);
 			int j = 0; int theLength = 200;
 			userRepository.saveAll(newDataset.get(i));
-			userRepository.flush();
+//			for (; j < theLength; j++) {		
+//				LadderTableEntry theEntry = newDataset.get(i).get(j);
+//				theEntry.setLeague(theLeague);
+////				userRepository.saveAndFlush(theEntry);	
+//
+//			}
 		}
 		System.out.println("SQL Transfer Complete.");
 	}
