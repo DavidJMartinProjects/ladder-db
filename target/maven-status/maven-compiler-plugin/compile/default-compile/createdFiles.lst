@@ -1,0 +1,17 @@
+com\project\controller\MainController.class
+com\project\domain\ladder\Ladder.class
+com\project\controller\Application.class
+com\project\controller\CurrentLeagueService.class
+com\project\controller\LadderTableEntry.class
+com\project\controller\PollingService.class
+com\project\domain\ladder\Twitch.class
+com\project\controller\ProgressBarService.class
+com\project\domain\ladder\Entries.class
+com\project\controller\CharacterInfo.class
+com\project\domain\ladder\Account.class
+com\project\controller\PollingService$1.class
+com\project\domain\ladder\Challenges.class
+com\project\domain\ladder\Character.class
+com\project\controller\DatasetService.class
+com\project\controller\UserRepository.class
+com\project\controller\User.class

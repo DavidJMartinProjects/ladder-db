@@ -41,6 +41,7 @@ public class PollingService {
 						System.out.println("****************************************");
 						System.out.println("======== Poll Request Recieved. ========");
 						datasetService.calculateDataSet();
+						datasetService.saveToMySQL();
 						Date date2 = new Date();
 						computeDiff(date1, date2);						
 						System.out.println("======== Poll Request Complete. ========");						

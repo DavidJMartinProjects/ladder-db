@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.context.spi.CurrentSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,7 @@ public class DatasetService {
 	private static LadderTableEntry entry;
 	private static RestTemplate restTemplate;
 	private static List<LadderTableEntry> tableEntries = new ArrayList<>();
+	private static String theLeague;
 
 	public DatasetService() throws InterruptedException {
 	}
@@ -96,15 +98,19 @@ public class DatasetService {
 		currentDataset = latestDataset;
 		// get the latest dataset
 		newDataset = getLatestDataSet();
-
+		timeStamp = new SimpleDateFormat(" MMM d hh:mm a").format(new Date());
+		
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 200; j++) {
 				for (int k = 0; k < 200; k++) {
+
 					if (newDataset.get(i).get(j).getCharacter().equals(currentDataset.get(i).get(k).getCharacter())) {
 						// character match then calculate xph
+						LadderTableEntry newLadderEntry = newDataset.get(i).get(j);
+						LadderTableEntry currentLadderEntry = currentDataset.get(i).get(k);
 
-						latest = (newDataset.get(i).get(j).getExperience()).replaceAll(",", "");
-						current = (currentDataset.get(i).get(k).getExperience()).replaceAll(",", "");
+						latest = (newLadderEntry.getExperience()); //.replaceAll(",", "");
+						current = (currentLadderEntry.getExperience()); //.replaceAll(",", "");
 
 						if (latest.equals("")) {
 							newXPPH = new Long(0);
@@ -118,8 +124,8 @@ public class DatasetService {
 							oldXPPH = Long.parseLong(current);
 						}
 
-						latestRank = (newDataset.get(i).get(j).getRank()).replaceAll(",", "");
-						currentRank = (currentDataset.get(i).get(k).getRank()).replaceAll(",", "");
+						latestRank = (newLadderEntry.getRank()); //.replaceAll(",", "");
+						currentRank = (currentLadderEntry.getRank()); //.replaceAll(",", "");
 
 						if (latestRank.equals("")) {
 							newRank = new Long(0);
@@ -136,21 +142,26 @@ public class DatasetService {
 						difference = String.valueOf(newXPPH - oldXPPH);
 						rankDifference = String.valueOf(oldRank - newRank);
 						xpPerHour = String.valueOf((newXPPH - oldXPPH) * 12);
-						theExperience = formatXp(newDataset.get(i).get(k).getExperience());
-						difference = formatNumber(difference);
-						xpPerHour = formatNumber(xpPerHour);
+						theExperience = (newDataset.get(i).get(k).getExperience());
+						difference = (difference);
+						xpPerHour = (xpPerHour);
 						
-						levelProgressBar = progressBarService.getProgressPercentage(Integer.parseInt(newDataset.get(i).get(j).getLevel()), newDataset.get(i).get(j).getExperience().replaceAll(",", ""));
+						levelProgressBar = progressBarService.getProgressPercentage(Integer.parseInt(newLadderEntry.getLevel()), newLadderEntry.getExperience()/*.replaceAll(",", "")*/);
 
 
-						newDataset.get(i).get(j).setXph(xpPerHour);
-						newDataset.get(i).get(j).setXphDifference(difference);
-						newDataset.get(i).get(j).setLevelProgressBar(levelProgressBar);
-						newDataset.get(i).get(j).setRankDifference(rankDifference);
-						newDataset.get(i).get(j).setExperience(theExperience);
+						newLadderEntry.setXph(xpPerHour);
+						newLadderEntry.setXphDifference(difference);
+						newLadderEntry.setLevelProgressBar(levelProgressBar);
+						newLadderEntry.setRankDifference(rankDifference);
+						newLadderEntry.setExperience(theExperience);
 						// set polling timestamp for current time
-						timeStamp = new SimpleDateFormat(" MMM d hh:mm a").format(new Date());
-						newDataset.get(i).get(j).setTimeStamp(timeStamp);
+						
+						newLadderEntry.setTimeStamp(timeStamp);
+						newDataset.get(i).set(j, newLadderEntry);
+						
+//						theLeague = leagues.get(i);						
+//						newLadderEntry.setLeague(theLeague);
+//						userRepository.save(newLadderEntry);		
 					
 					}
 				}
@@ -158,16 +169,32 @@ public class DatasetService {
 		}
 
 		latestDataset = newDataset;
+		
+//		System.out.println("latestDataset size : " + latestDataset.size() + " " +latestDataset.get(1).size());
+//		System.out.println("Start SQL Transfer.");
+//		
+//		for (int i = 0; i < 4; i++) {
+//			String theLeague = leagues.get(i);
+//			System.out.println("theLeague : " +theLeague);
+//			for (int j = 0; j < 200; j++) {		
+//				LadderTableEntry theEntry = newDataset.get(i).get(j);
+//				theEntry.setLeague(theLeague);
+//				userRepository.save(theEntry);			
+//			}
+//		}
+//		System.out.println("SQL Transfer Complete.");
+	}
+	
+	public void saveToMySQL() {
 		System.out.println("latestDataset size : " + latestDataset.size() + " " +latestDataset.get(1).size());
 		System.out.println("Start SQL Transfer.");
-		
-		for (int i = 0; i < 4; i++) {
+		int i = 0; int theNoOfLeagues = 4;
+		for (; i < theNoOfLeagues; i++) {
 			String theLeague = leagues.get(i);
 			System.out.println("theLeague : " +theLeague);
-			for (int j = 0; j < 200; j++) {				
-				CharacterInfo characterInfo = mapToCharacterInfo(theLeague, newDataset.get(i).get(j));
-				userRepository.save(characterInfo);			
-			}
+			int j = 0; int theLength = 200;
+			userRepository.saveAll(newDataset.get(i));
+			userRepository.flush();
 		}
 		System.out.println("SQL Transfer Complete.");
 	}
@@ -223,18 +250,18 @@ public class DatasetService {
 		}
 	}
 
-	public String formatNumber(String theNumber) {
-		number = theNumber;
-		number = number.replaceAll(",", "");
-		amount = Double.parseDouble(number);
-		return formatter.format(amount).replaceAll(",", "");
-	}
-
-	public String formatXp(String theNumber) {
-		number = theNumber;
-		number = number.replaceAll(",", "");
-		amount = Double.parseDouble(number);
-		return formatter.format(amount);
-	}
+//	public String formatNumber(String theNumber) {
+//		number = theNumber;
+//		number = number.replaceAll(",", "");
+//		amount = Double.parseDouble(number);
+//		return formatter.format(amount).replaceAll(",", "");
+//	}
+//
+//	public String formatXp(String theNumber) {
+//		number = theNumber;
+//		number = number.replaceAll(",", "");
+//		amount = Double.parseDouble(number);
+//		return formatter.format(amount);
+//	}
 
 }

@@ -44,7 +44,7 @@ public class MainController {
 //	}
 //	
 	@GetMapping(path="/all")
-	public @ResponseBody Iterable<CharacterInfo> getAllCharInfo() {
+	public @ResponseBody Iterable<LadderTableEntry> getAllCharInfo() {
 		// This returns a JSON or XML with the users
 		return userRepository.findAll();
 	}
