@@ -189,17 +189,12 @@ public class DatasetService {
 		System.out.println("latestDataset size : " + latestDataset.size() + " " +latestDataset.get(1).size());
 		System.out.println("Start SQL Transfer.");
 		int i = 0; int theNoOfLeagues = 4;
+		userRepository.deleteAll();
 		for (; i < theNoOfLeagues; i++) {
 			String theLeague = leagues.get(i);
-			System.out.println("theLeague : " +theLeague);
-			int j = 0; int theLength = 200;
-			userRepository.saveAll(newDataset.get(i));
-//			for (; j < theLength; j++) {		
-//				LadderTableEntry theEntry = newDataset.get(i).get(j);
-//				theEntry.setLeague(theLeague);
-////				userRepository.saveAndFlush(theEntry);	
-//
-//			}
+			System.out.println("theLeague : " +theLeague);			
+			userRepository.saveAll(newDataset.get(i));	
+			userRepository.flush();
 		}
 		System.out.println("SQL Transfer Complete.");
 	}
