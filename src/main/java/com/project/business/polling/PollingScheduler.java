@@ -22,7 +22,6 @@ import com.project.topten.business.TopTenApiRequestService;
 @Configuration
 @EnableScheduling
 class PollingScheduler {
-
 	
 	@Autowired
 	TopTenApiRequestService topTenApiRequestService;
