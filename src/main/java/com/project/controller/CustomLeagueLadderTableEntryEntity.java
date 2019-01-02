@@ -14,12 +14,15 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @JsonInclude(Include.NON_NULL)
-@Table(name="top_ten_ladders")
+@Table(name="custom_league_ladders")
 @Component
-public class LadderTableEntryEntity {
+public class CustomLeagueLadderTableEntryEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+    
+	@Column(name = "leagueId")
+	private String leagueId;
     
 	@Column(name = "leagueName")
 	private String leagueName;
@@ -78,7 +81,15 @@ public class LadderTableEntryEntity {
 	@Column(name = "leagueDifficulty")
 	private String leagueDifficulty;
 	
-	public LadderTableEntryEntity() {
+	public CustomLeagueLadderTableEntryEntity() {
+	}
+	
+	public String getLeagueId() {
+		return leagueId;
+	}
+
+	public void setLeagueId(String leagueId) {
+		this.leagueId = leagueId;
 	}
 
 	public Long getId() {
@@ -243,11 +254,11 @@ public class LadderTableEntryEntity {
 
 	@Override
 	public String toString() {
-		return "LadderTableEntry [id=" + id + ", leagueName=" + leagueName + ", rank=" + rank
-				+ ", rankDifference=" + rankDifference + ", character=" + character + ", dead=" + dead + ", account="
-				+ account + ", level=" + level + ", theClass=" + theClass + ", experience=" + experience
-				+ ", challenges=" + challenges + ", online=" + online + ", twitch=" + twitch + ", xph=" + xph
-				+ ", xphDifference=" + xphDifference + ", levelProgressBar=" + levelProgressBar + ", timeStamp="
+		return "CustomLeagueLadderTableEntryEntity [id=" + id + ", leagueId=" + leagueId + ", leagueName=" + leagueName
+				+ ", rank=" + rank + ", rankDifference=" + rankDifference + ", character=" + character + ", dead="
+				+ dead + ", account=" + account + ", level=" + level + ", theClass=" + theClass + ", experience="
+				+ experience + ", challenges=" + challenges + ", online=" + online + ", twitch=" + twitch + ", xph="
+				+ xph + ", xphDifference=" + xphDifference + ", levelProgressBar=" + levelProgressBar + ", timeStamp="
 				+ timeStamp + ", depth=" + depth + ", labTime=" + labTime + ", leagueDifficulty=" + leagueDifficulty
 				+ "]";
 	}

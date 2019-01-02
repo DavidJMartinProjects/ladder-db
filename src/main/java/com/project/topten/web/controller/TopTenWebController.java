@@ -12,14 +12,13 @@ import com.project.topten.pojo.TopTenLadderResponse;
 @RestController
 @RequestMapping(value = "/top-ten")
 public class TopTenWebController {
+	
 	@Autowired
 	TopTenDbService topTenDbService;
-
 		
 	@RequestMapping(value = "/delve", method = RequestMethod.GET, produces = { "application/json" })
 	public TopTenLadderResponse getDelveLadderData() throws InterruptedException {
-		System.out.println("Processing request to to-ten data");
-		System.out.println("Web Controller Response : ");
+		System.out.println("Processing request to /top-ten/delve");		
 		return topTenDbService.getTopTenLadder();
 	}
 

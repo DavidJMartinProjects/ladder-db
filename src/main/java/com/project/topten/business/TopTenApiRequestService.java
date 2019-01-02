@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
-import com.project.controller.UserRepository;
+import com.project.controller.LeagueRepository;
 import com.project.topten.pojo.TopTenLadderResponse;
 import com.project.topten.pojo.TopTenLeague;
 import com.project.topten.util.TopTenUtil;
@@ -20,7 +20,7 @@ public class TopTenApiRequestService {
 	TopTenLaddersService topTenLaddersService;
 
 	@Autowired
-	UserRepository userRepository;
+	LeagueRepository userRepository;
 
 	@Autowired
 	TopTenUtil topTenUtil;

@@ -1,4 +1,4 @@
-package com.project.domain.datatable;
+package com.project.controller;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,21 +14,23 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @JsonInclude(Include.NON_NULL)
-@Table(name="custom_league")
+@Table(name="top_ten_ladders")
 @Component
-public class LadderTableEntry {
-	
+public class TopTenLadderTableEntryEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
+    
+	@Column(name = "leagueName")
+	private String leagueName;
+	
 	@Column(name = "rank")
 	private String rank;
 	
 	@Column(name = "rankDifference")
 	private String rankDifference;
 	
-	@Column(name = "characterName")
+	@Column(name = "theCharacter")
 	private String character;
 	
 	@Column(name = "dead")
@@ -67,21 +69,32 @@ public class LadderTableEntry {
 	@Column(name = "timeStamp")
 	private String timeStamp;
 	
-	@Column(name = "leagueName")
-	private String leagueName;
+	@Column(name = "depth")
+	private String depth;
 	
-	@Column(name = "leagueId")
-	private String leagueId;
-
-	public LadderTableEntry() {
+	@Column(name = "labTime")
+	private String labTime;
+	
+	@Column(name = "leagueDifficulty")
+	private String leagueDifficulty;
+	
+	public TopTenLadderTableEntryEntity() {
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getLeagueName() {
+		return leagueName;
+	}
+
+	public void setLeagueName(String leagueName) {
+		this.leagueName = leagueName;
 	}
 
 	public String getRank() {
@@ -92,10 +105,6 @@ public class LadderTableEntry {
 		this.rank = rank;
 	}
 
-	public String getCharacter() {
-		return character;
-	}	
-
 	public String getRankDifference() {
 		return rankDifference;
 	}
@@ -104,8 +113,20 @@ public class LadderTableEntry {
 		this.rankDifference = rankDifference;
 	}
 
+	public String getCharacter() {
+		return character;
+	}
+
 	public void setCharacter(String character) {
 		this.character = character;
+	}
+
+	public String getDead() {
+		return dead;
+	}
+
+	public void setDead(String dead) {
+		this.dead = dead;
 	}
 
 	public String getAccount() {
@@ -148,14 +169,6 @@ public class LadderTableEntry {
 		this.challenges = challenges;
 	}
 
-	public String getDead() {
-		return dead;
-	}
-
-	public void setDead(String dead) {
-		this.dead = dead;
-	}
-
 	public String getOnline() {
 		return online;
 	}
@@ -188,6 +201,14 @@ public class LadderTableEntry {
 		this.xphDifference = xphDifference;
 	}
 
+	public String getLevelProgressBar() {
+		return levelProgressBar;
+	}
+
+	public void setLevelProgressBar(String levelProgressBar) {
+		this.levelProgressBar = levelProgressBar;
+	}
+
 	public String getTimeStamp() {
 		return timeStamp;
 	}
@@ -196,38 +217,39 @@ public class LadderTableEntry {
 		this.timeStamp = timeStamp;
 	}
 
-	public String getLevelProgressBar() {
-		return levelProgressBar;
+	public String getDepth() {
+		return depth;
 	}
 
-	public void setLevelProgressBar(String levelProgressBar) {
-		this.levelProgressBar = levelProgressBar;
-	}
-	
-	public String getLeagueName() {
-		return leagueName;
+	public void setDepth(String depth) {
+		this.depth = depth;
 	}
 
-	public void setLeagueName(String leagueName) {
-		this.leagueName = leagueName;
+	public String getLabTime() {
+		return labTime;
 	}
 
-	public String getLeagueId() {
-		return leagueId;
+	public void setLabTime(String labTime) {
+		this.labTime = labTime;
 	}
 
-	public void setLeagueId(String leagueId) {
-		this.leagueId = leagueId;
+	public String getLeagueDifficulty() {
+		return leagueDifficulty;
+	}
+
+	public void setLeagueDifficulty(String leagueDifficulty) {
+		this.leagueDifficulty = leagueDifficulty;
 	}
 
 	@Override
 	public String toString() {
-		return "LadderTableEntry [rank=" + rank + ", rankDifference=" + rankDifference + ", character=" + character
-				+ ", dead=" + dead + ", account=" + account + ", level=" + level + ", theClass=" + theClass
-				+ ", experience=" + experience + ", challenges=" + challenges + ", online=" + online + ", twitch="
-				+ twitch + ", xph=" + xph + ", xphDifference=" + xphDifference + ", levelProgressBar="
-				+ levelProgressBar + ", timeStamp=" + timeStamp + ", leagueName=" + leagueName + ", leagueId="
-				+ leagueId + "]";
+		return "LadderTableEntry [id=" + id + ", leagueName=" + leagueName + ", rank=" + rank
+				+ ", rankDifference=" + rankDifference + ", character=" + character + ", dead=" + dead + ", account="
+				+ account + ", level=" + level + ", theClass=" + theClass + ", experience=" + experience
+				+ ", challenges=" + challenges + ", online=" + online + ", twitch=" + twitch + ", xph=" + xph
+				+ ", xphDifference=" + xphDifference + ", levelProgressBar=" + levelProgressBar + ", timeStamp="
+				+ timeStamp + ", depth=" + depth + ", labTime=" + labTime + ", leagueDifficulty=" + leagueDifficulty
+				+ "]";
 	}
 
 }

@@ -18,17 +18,17 @@ import com.project.domain.ladder.Ladder;
 public class DatasetService {
 
 	@Autowired
-	UserRepository userRepository;	
+	LeagueRepository userRepository;	
 	@Autowired
 	ProgressBarService progressBarService;
 	@Autowired
-	LadderTableEntryEntity ladderTableEntry;
+	TopTenLadderTableEntryEntity ladderTableEntry;
 
 	private static CurrentLeagueService currentLeagueService = new CurrentLeagueService();
 	private static List<String> leagues = new ArrayList<>();
-	private static List<List<LadderTableEntryEntity>> currentDataset = new ArrayList<>();
-	private static List<List<LadderTableEntryEntity>> latestDataset = new ArrayList<>();
-	private static List<List<LadderTableEntryEntity>> newDataset = new ArrayList<>();
+	private static List<List<TopTenLadderTableEntryEntity>> currentDataset = new ArrayList<>();
+	private static List<List<TopTenLadderTableEntryEntity>> latestDataset = new ArrayList<>();
+	private static List<List<TopTenLadderTableEntryEntity>> newDataset = new ArrayList<>();
 	private static DecimalFormat formatter = new DecimalFormat("#,###");
 	private static double amount;
 	private static String number;
@@ -53,7 +53,7 @@ public class DatasetService {
 	public DatasetService() throws InterruptedException {
 	}
 
-	public List<List<LadderTableEntryEntity>> getLatestDataSet() throws InterruptedException {
+	public List<List<TopTenLadderTableEntryEntity>> getLatestDataSet() throws InterruptedException {
 		leagues = currentLeagueService.getLeagues();
 		newDataset = new ArrayList<>();
 		int i = 0;
@@ -106,8 +106,8 @@ public class DatasetService {
 
 					if (newDataset.get(i).get(j).getCharacter().equals(currentDataset.get(i).get(k).getCharacter())) {
 						// character match then calculate xph
-						LadderTableEntryEntity newLadderEntry = newDataset.get(i).get(j);
-						LadderTableEntryEntity currentLadderEntry = currentDataset.get(i).get(k);
+						TopTenLadderTableEntryEntity newLadderEntry = newDataset.get(i).get(j);
+						TopTenLadderTableEntryEntity currentLadderEntry = currentDataset.get(i).get(k);
 
 						latest = (newLadderEntry.getExperience()); //.replaceAll(",", "");
 						current = (currentLadderEntry.getExperience()); //.replaceAll(",", "");
@@ -199,7 +199,7 @@ public class DatasetService {
 		System.out.println("SQL Transfer Complete.");
 	}
 
-	private CharacterInfo mapToCharacterInfo(String league, LadderTableEntryEntity entry) {
+	private CharacterInfo mapToCharacterInfo(String league, TopTenLadderTableEntryEntity entry) {
 		CharacterInfo characterInfo = new CharacterInfo();
 		characterInfo.setLeague(league);
 		characterInfo.setAccount(entry.getAccount());
@@ -220,7 +220,7 @@ public class DatasetService {
 		return characterInfo;
 	}
 
-	public List<LadderTableEntryEntity> getCalculatedDataset(String selectedLeague) {
+	public List<TopTenLadderTableEntryEntity> getCalculatedDataset(String selectedLeague) {
 		Runtime.getRuntime().gc();
 		switch (selectedLeague) {
 			case "Incursion Event (IRE001)": {
@@ -245,7 +245,7 @@ public class DatasetService {
 			}
 	
 			default: {
-				return new ArrayList<LadderTableEntryEntity>();
+				return new ArrayList<TopTenLadderTableEntryEntity>();
 			}
 		}
 	}

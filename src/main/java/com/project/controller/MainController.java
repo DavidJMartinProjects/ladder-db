@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.controller.User;
-import com.project.controller.UserRepository;
+import com.project.controller.LeagueRepository;
 import com.project.domain.datatable.LadderTableEntry;
 
 @Controller    // This means that this class is a Controller

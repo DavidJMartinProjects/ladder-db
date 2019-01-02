@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.project.controller.LadderTableEntryEntity;
-import com.project.controller.UserRepository;
+import com.project.controller.TopTenLadderTableEntryEntity;
+import com.project.controller.LeagueRepository;
 import com.project.topten.pojo.TopTenLadderResponse;
 import com.project.topten.pojo.TopTenLeague;
 
@@ -15,11 +15,11 @@ import com.project.topten.pojo.TopTenLeague;
 public class TopTenDaoImpl {
 
 	@Autowired
-	UserRepository userRepository;
+	LeagueRepository userRepository;
 	
-	List<LadderTableEntryEntity> delve;
-	List<LadderTableEntryEntity> lab;
-	List<LadderTableEntryEntity> raceTo100;
+	List<TopTenLadderTableEntryEntity> delve;
+	List<TopTenLadderTableEntryEntity> lab;
+	List<TopTenLadderTableEntryEntity> raceTo100;
 
 	public TopTenLadderResponse fetchTopTenDelveLadder() {
 		System.out.println("fetchTopTenDelveLadderSSFHC()");	
@@ -31,9 +31,9 @@ public class TopTenDaoImpl {
 //		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(topTenLadder, "Betrayal"));
 		
 		
-		List<LadderTableEntryEntity> test = userRepository.fetchFilteredTopTenLadder();
+		List<TopTenLadderTableEntryEntity> test = userRepository.fetchFilteredTopTenLadder();
 		
-		for(LadderTableEntryEntity ladderTableEntryEntity : test) {
+		for(TopTenLadderTableEntryEntity ladderTableEntryEntity : test) {
 			System.out.println(ladderTableEntryEntity);
 		}
 
@@ -45,13 +45,13 @@ public class TopTenDaoImpl {
 		return topTenLadderResponse;
 	}
 
-	private TopTenLeague buildTopTenResponse(List<LadderTableEntryEntity> list, String league) {
+	private TopTenLeague buildTopTenResponse(List<TopTenLadderTableEntryEntity> list, String league) {
 		System.out.println("buildTopTenResponse() : Size " + list.size());		
 		delve = new ArrayList<>();
 		lab = new ArrayList<>();
 		raceTo100 = new ArrayList<>();
 
-		for (LadderTableEntryEntity entry : list) {
+		for (TopTenLadderTableEntryEntity entry : list) {
 			System.out.println("entry.getLeagueName() : " + entry.getLeagueName());
 			if (entry.getLeagueDifficulty().equals(league)) {
 				if (entry.getLeagueName().equals("TableDataDelveTopTen")) {
