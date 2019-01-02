@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.project.controller.LadderTableEntryEntity;
 import com.project.controller.UserRepository;
-import com.project.domain.datatable.LadderTableEntry;
 import com.project.topten.pojo.TopTenLadderResponse;
 import com.project.topten.pojo.TopTenLeague;
 
@@ -17,7 +16,7 @@ public class TopTenDaoImpl {
 
 	@Autowired
 	UserRepository userRepository;
-
+	
 	List<LadderTableEntryEntity> delve;
 	List<LadderTableEntryEntity> lab;
 	List<LadderTableEntryEntity> raceTo100;
@@ -25,11 +24,24 @@ public class TopTenDaoImpl {
 	public TopTenLadderResponse fetchTopTenDelveLadder() {
 		System.out.println("fetchTopTenDelveLadderSSFHC()");	
 		TopTenLadderResponse topTenLadderResponse = new TopTenLadderResponse();
-		List<LadderTableEntryEntity> topTenLadder= userRepository.findAll();
-		topTenLadderResponse.addToLeagueHC(buildTopTenResponse(topTenLadder, "Hardcore Betrayal"));
-		topTenLadderResponse.addToLeagueHCSFF(buildTopTenResponse(topTenLadder, "SSF Betrayal HC"));
-		topTenLadderResponse.addToLeagueSFF(buildTopTenResponse(topTenLadder, "SSF Betrayal"));
-		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(topTenLadder, "Betrayal"));
+//		List<LadderTableEntryEntity> topTenLadder= userRepository.findAll();
+//		topTenLadderResponse.addToLeagueHC(buildTopTenResponse(topTenLadder, "Hardcore Betrayal"));
+//		topTenLadderResponse.addToLeagueHCSFF(buildTopTenResponse(topTenLadder, "SSF Betrayal HC"));
+//		topTenLadderResponse.addToLeagueSFF(buildTopTenResponse(topTenLadder, "SSF Betrayal"));
+//		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(topTenLadder, "Betrayal"));
+		
+		
+		List<LadderTableEntryEntity> test = userRepository.fetchFilteredTopTenLadder();
+		
+		for(LadderTableEntryEntity ladderTableEntryEntity : test) {
+			System.out.println(ladderTableEntryEntity);
+		}
+
+//		List<LadderTableEntryEntity> topTenLadder= userRepository.findAll();
+		topTenLadderResponse.addToLeagueHC(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Hardcore Betrayal"));
+		topTenLadderResponse.addToLeagueHCSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Betrayal HC"));
+		topTenLadderResponse.addToLeagueSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Betrayal"));
+		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Betrayal"));
 		return topTenLadderResponse;
 	}
 

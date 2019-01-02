@@ -10,9 +10,6 @@ import com.project.topten.pojo.TopTenLeague;
 public class TopTenDbService {
 	
 	@Autowired
-	TopTenLeague topTenLeague;
-			
-	@Autowired
 	TopTenDaoImpl topTenDaoImpl;
 	
 	public TopTenLadderResponse getTopTenLadder() {
