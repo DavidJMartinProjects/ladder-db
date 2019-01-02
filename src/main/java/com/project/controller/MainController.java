@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.controller.User;
 import com.project.controller.UserRepository;
+import com.project.domain.datatable.LadderTableEntry;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/ranks") // This means URL's start with /demo (after Application path)
@@ -44,7 +45,7 @@ public class MainController {
 //	}
 //	
 	@GetMapping(path="/all")
-	public @ResponseBody Iterable<LadderTableEntry> getAllCharInfo() {
+	public @ResponseBody Iterable<LadderTableEntryEntity> getAllCharInfo() {
 		// This returns a JSON or XML with the users
 		return userRepository.findAll();
 	}

@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.context.spi.CurrentSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.domain.datatable.LadderTableEntry;
 import com.project.domain.ladder.Ladder;
 
 @Component
@@ -22,13 +22,13 @@ public class DatasetService {
 	@Autowired
 	ProgressBarService progressBarService;
 	@Autowired
-	LadderTableEntry ladderTableEntry;
+	LadderTableEntryEntity ladderTableEntry;
 
 	private static CurrentLeagueService currentLeagueService = new CurrentLeagueService();
 	private static List<String> leagues = new ArrayList<>();
-	private static List<List<LadderTableEntry>> currentDataset = new ArrayList<>();
-	private static List<List<LadderTableEntry>> latestDataset = new ArrayList<>();
-	private static List<List<LadderTableEntry>> newDataset = new ArrayList<>();
+	private static List<List<LadderTableEntryEntity>> currentDataset = new ArrayList<>();
+	private static List<List<LadderTableEntryEntity>> latestDataset = new ArrayList<>();
+	private static List<List<LadderTableEntryEntity>> newDataset = new ArrayList<>();
 	private static DecimalFormat formatter = new DecimalFormat("#,###");
 	private static double amount;
 	private static String number;
@@ -53,7 +53,7 @@ public class DatasetService {
 	public DatasetService() throws InterruptedException {
 	}
 
-	public List<List<LadderTableEntry>> getLatestDataSet() throws InterruptedException {
+	public List<List<LadderTableEntryEntity>> getLatestDataSet() throws InterruptedException {
 		leagues = currentLeagueService.getLeagues();
 		newDataset = new ArrayList<>();
 		int i = 0;
@@ -83,7 +83,7 @@ public class DatasetService {
 				}
 				tableEntries.add(entry);
 			}
-			newDataset.add(tableEntries);
+//			newDataset.add(tableEntries);
 			Thread.sleep(500);
 		}
 		if (currentDataset.size() == 0) {
@@ -106,8 +106,8 @@ public class DatasetService {
 
 					if (newDataset.get(i).get(j).getCharacter().equals(currentDataset.get(i).get(k).getCharacter())) {
 						// character match then calculate xph
-						LadderTableEntry newLadderEntry = newDataset.get(i).get(j);
-						LadderTableEntry currentLadderEntry = currentDataset.get(i).get(k);
+						LadderTableEntryEntity newLadderEntry = newDataset.get(i).get(j);
+						LadderTableEntryEntity currentLadderEntry = currentDataset.get(i).get(k);
 
 						latest = (newLadderEntry.getExperience()); //.replaceAll(",", "");
 						current = (currentLadderEntry.getExperience()); //.replaceAll(",", "");
@@ -193,13 +193,13 @@ public class DatasetService {
 		for (; i < theNoOfLeagues; i++) {
 			String theLeague = leagues.get(i);
 			System.out.println("theLeague : " +theLeague);			
-			userRepository.saveAll(newDataset.get(i));	
+//			userRepository.saveAll(newDataset.get(i));	
 			userRepository.flush();
 		}
 		System.out.println("SQL Transfer Complete.");
 	}
 
-	private CharacterInfo mapToCharacterInfo(String league, LadderTableEntry entry) {
+	private CharacterInfo mapToCharacterInfo(String league, LadderTableEntryEntity entry) {
 		CharacterInfo characterInfo = new CharacterInfo();
 		characterInfo.setLeague(league);
 		characterInfo.setAccount(entry.getAccount());
@@ -220,7 +220,7 @@ public class DatasetService {
 		return characterInfo;
 	}
 
-	public List<LadderTableEntry> getCalculatedDataset(String selectedLeague) {
+	public List<LadderTableEntryEntity> getCalculatedDataset(String selectedLeague) {
 		Runtime.getRuntime().gc();
 		switch (selectedLeague) {
 			case "Incursion Event (IRE001)": {
@@ -245,7 +245,7 @@ public class DatasetService {
 			}
 	
 			default: {
-				return new ArrayList<LadderTableEntry>();
+				return new ArrayList<LadderTableEntryEntity>();
 			}
 		}
 	}
