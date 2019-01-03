@@ -60,13 +60,13 @@ public class TopTenLadderTableEntryEntity {
 	@Column(name = "xph")
 	private String xph;
 	
-	@Column(name = "xphDifference")
+	@Column(name = "xph_Difference")
 	private String xphDifference;
 	
-	@Column(name = "levelProgressBar")
+	@Column(name = "level_progress_bar")
 	private String levelProgressBar;
 	
-	@Column(name = "timeStamp")
+	@Column(name = "time_stamp")
 	private String timeStamp;
 	
 	@Column(name = "depth")
@@ -80,7 +80,7 @@ public class TopTenLadderTableEntryEntity {
 	
 	public TopTenLadderTableEntryEntity() {
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -243,7 +243,7 @@ public class TopTenLadderTableEntryEntity {
 
 	@Override
 	public String toString() {
-		return "LadderTableEntry [id=" + id + ", leagueName=" + leagueName + ", rank=" + rank
+		return "TopTenLadderTableEntryEntity [id=" + id + ", leagueName=" + leagueName + ", rank=" + rank
 				+ ", rankDifference=" + rankDifference + ", character=" + character + ", dead=" + dead + ", account="
 				+ account + ", level=" + level + ", theClass=" + theClass + ", experience=" + experience
 				+ ", challenges=" + challenges + ", online=" + online + ", twitch=" + twitch + ", xph=" + xph

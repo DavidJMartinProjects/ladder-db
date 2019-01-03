@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.project.business", "com.project.domain","com.project.topten", "com.project.active.league", "com.project.controller", "com.project.custom.league" })
+@ComponentScan(basePackages = { "com.project.business", "com.project.domain","com.project.topten", "com.project.active.league", "com.project.controller", "com.project.custom.league", "com.project.controller" })
 @EntityScan( basePackages = {"com.project.topten", "com.project.domain.datatable", "com.project.controller"})
 public class Application {
 

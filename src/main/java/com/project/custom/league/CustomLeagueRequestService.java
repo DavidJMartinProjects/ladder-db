@@ -52,17 +52,18 @@ public class CustomLeagueRequestService {
 		entires.stream()		
 			.forEach(e -> mapResponseToEntity(e, leagueId, leagueName));
 		Thread.sleep(500);
-		isCurrentDatasetEmpty();
-		newDataset = customLeagueEntries;
-		if(parsedLeagues.containsKey(leagueId)) {
-			parsedLeagues.remove(leagueId);
-			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
-		} else {
-			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
-		}
+		
+//		newDataset = customLeagueEntries;
+//		if(parsedLeagues.containsKey(leagueId)) {
+//			parsedLeagues.remove(leagueId);
+//			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
+//		} else {
+//			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
+//		}
+		leagueRepository.deleteRedundantLeagueFromDb(leagueName);
 		saveToMySQL();
 		
-		return newDataset;
+		return customLeagueEntries;
 	}
 	
 	private void mapResponseToEntity(Entries responseEntry, String leagueId, String leagueName) {
@@ -77,7 +78,7 @@ public class CustomLeagueRequestService {
 		entry.setLevel(responseEntry.getCharacter().getLevel());
 		entry.setTheClass(responseEntry.getCharacter().getTheClass());
 		entry.setChallenges(responseEntry.getAccount().getChallenges().getTotal());
-		entry.setExperience(responseEntry.getCharacter().getExperience());
+		entry.setExperience(responseEntry.getCharacter().getExperience().replaceAll(",", ""));
 		formatTwitchInfo(responseEntry);
 		customLeagueEntries.add(entry);
 	}
@@ -105,24 +106,13 @@ public class CustomLeagueRequestService {
 		entity = new HttpEntity<String>("parameters", headers);
 	}
 	
-	private void isCurrentDatasetEmpty() {
-		if (currentDataset.size() == 0) {
-			currentDataset = newDataset;
-		}
-	}
-	
 	public List<LadderTableEntry> getCurrentDataset(String leagueId, String leagueName) throws InterruptedException {
 		String trimmedLeagueId = leagueId.replace("(", "").replace(")", "").trim();
 		String trimmedLeagueName = leagueName.trim();
 //		activeLeagueService.addLeagueRequest(trimmedLeagueId, trimmedLeagueName);
-		if(!parsedLeagues.containsKey(trimmedLeagueId)) {
-			System.out.println("League not parsed previously : requesting league data from api");
-			getCustomLeagueData(trimmedLeagueId, trimmedLeagueName);
-
-		} 
 		System.out.println("Sucessfully parsed league : returning "+trimmedLeagueId+" data");
 		System.out.println("parsedLeagues " +parsedLeagues.keySet());
-		return parsedLeagues.get(trimmedLeagueId);
+		return getCustomLeagueData(trimmedLeagueId, trimmedLeagueName);
 	}
 	
 

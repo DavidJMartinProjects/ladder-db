@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.project.controller.LeagueRepository;
+import com.project.custom.league.UpdateCustomLeagueService;
 import com.project.topten.business.TopTenApiRequestService;
 
 
@@ -25,6 +25,9 @@ class PollingScheduler {
 	
 	@Autowired
 	TopTenApiRequestService topTenApiRequestService;
+	
+	@Autowired
+	UpdateCustomLeagueService updateCustomLeagueService;
 	
 	@Scheduled(initialDelay = 10000, fixedRate = 300000)
 	public void pollDataFromApi() {
@@ -44,6 +47,11 @@ class PollingScheduler {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Scheduled(initialDelay = 3000, fixedRate = 300000)
+	public void updateCustomLeagues() throws InterruptedException {
+		updateCustomLeagueService.updateCustomLeagues();
 	}
 
 	public static Map<TimeUnit, Long> computeDiff(Date date1, Date date2) {

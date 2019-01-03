@@ -21,8 +21,8 @@ public class Constants {
 	public static List<List<LadderTableEntry>> latestDataset = new ArrayList<>();
 	public static List<List<LadderTableEntry>> newDataset = new ArrayList<>();
 	public static DecimalFormat formatter = new DecimalFormat("#,###");
-	public static double amount;	
-	public static String number;	
+//	public static double amount;	
+//	public static String number;	
 	public static String latest;
 	public static String current;
 	public static String difference;

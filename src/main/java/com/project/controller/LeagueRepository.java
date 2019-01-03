@@ -16,8 +16,5 @@ public interface LeagueRepository extends JpaRepository<TopTenLadderTableEntryEn
 	@Query(value = "SELECT * FROM top_ten_ladders ORDER BY id ASC", nativeQuery = true)
 	List<TopTenLadderTableEntryEntity> fetchFilteredTopTenLadder();
 	
-	@Query(value = "DELETE * FROM custom_league_ladders WHERE league_name=:theLeagueName", nativeQuery = true)
-	List<TopTenLadderTableEntryEntity> deleteRedundantLeagueFromDb(@Param("theLeagueName") String theLeagueName);
-
 }
 	
