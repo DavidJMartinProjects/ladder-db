@@ -42,6 +42,8 @@ public class TopTenDaoImpl {
 		topTenLadderResponse.addToLeagueHCSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Betrayal HC"));
 		topTenLadderResponse.addToLeagueSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Betrayal"));
 		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Betrayal"));
+//		System.out.println("================= Print Standard League Delve ladder ========================");
+//		topTenLadderResponse.getLeagueStd().getTableDataDelve().forEach(System.out::println);
 		return topTenLadderResponse;
 	}
 

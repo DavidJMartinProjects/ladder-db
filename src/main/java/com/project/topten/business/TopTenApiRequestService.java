@@ -38,6 +38,7 @@ public class TopTenApiRequestService {
 		leaguesList.forEach(System.out::println);
 
 		userRepository.deleteAll();
+		userRepository.flush();
 		for (String league : leaguesList) {
 			TopTenLeague topTenLeague = topTenLaddersService.getLeagueTopTenData(league);
 			saveToMySQL(topTenLeague);
