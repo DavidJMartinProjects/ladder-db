@@ -29,6 +29,9 @@ public class CustomLeagueRequestService {
 	@Autowired
 	CustomLeagueRepository leagueRepository;
 	
+	@Autowired
+	LeagueComparisionService leagueComparisionService;
+	
 	Map<String, List<LadderTableEntry>> parsedLeagues = new HashMap<>();
 	private List<LadderTableEntry> newDataset = new ArrayList<>();
 	private List<LadderTableEntry> currentDataset = new ArrayList<>();
@@ -60,6 +63,8 @@ public class CustomLeagueRequestService {
 //		} else {
 //			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
 //		}
+		
+		customLeagueEntries = leagueComparisionService.compareLeagues(customLeagueEntries, customLeagueEntries);
 		leagueRepository.deleteRedundantLeagueFromDb(leagueName);
 		saveToMySQL();
 		
