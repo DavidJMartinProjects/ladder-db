@@ -84,13 +84,14 @@ public class CustomLeagueRequestService {
 		entry.setTheClass(responseEntry.getCharacter().getTheClass());
 		entry.setChallenges(responseEntry.getAccount().getChallenges().getTotal());
 		entry.setExperience(responseEntry.getCharacter().getExperience().replaceAll(",", ""));
+//		System.out.println("responseEntry.getAccount().getTwitch().getName(): " + responseEntry.getTwitch());
 		formatTwitchInfo(responseEntry);
 		customLeagueEntries.add(entry);
 	}
 	
 	private void formatTwitchInfo(Entries responseEntry) {
-		if (responseEntry.getTwitch() != null) {
-			entry.setTwitch(responseEntry.getTwitch());
+		if (responseEntry.getAccount().getTwitch() != null) {
+			entry.setTwitch(responseEntry.getAccount().getTwitch().getName());
 		} else {
 			entry.setTwitch("");
 		}
