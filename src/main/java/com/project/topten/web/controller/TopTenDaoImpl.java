@@ -48,22 +48,17 @@ public class TopTenDaoImpl {
 	}
 
 	private TopTenLeague buildTopTenResponse(List<TopTenLadderTableEntryEntity> list, String league) {
-		System.out.println("buildTopTenResponse() : Size " + list.size());		
 		delve = new ArrayList<>();
 		lab = new ArrayList<>();
 		raceTo100 = new ArrayList<>();
 
 		for (TopTenLadderTableEntryEntity entry : list) {
-			System.out.println("entry.getLeagueName() : " + entry.getLeagueName());
 			if (entry.getLeagueDifficulty().equals(league)) {
 				if (entry.getLeagueName().equals("TableDataDelveTopTen")) {
-					System.out.println("Delve Entry found.");
 					delve.add(entry);
 				} else if (entry.getLeagueName().equals("TableDataUberLabTopTen")) {
-					System.out.println("Lab Entry found.");
 					lab.add(entry);
 				} else if (entry.getLeagueName().equals("TableDataRaceTo100")) {
-					System.out.println("RaceTo100 Entry found.");
 					raceTo100.add(entry);
 				}
 			}
