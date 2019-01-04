@@ -21,6 +21,9 @@ public class LadderTableEntry {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+    
+	@Column(name = "characterId")
+	private String characterId;
 
 	@Column(name = "rank")
 	private String rank;
@@ -82,6 +85,14 @@ public class LadderTableEntry {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getCharacterId() {
+		return characterId;
+	}
+
+	public void setCharacterId(String characterId) {
+		this.characterId = characterId;
 	}
 
 	public String getRank() {
@@ -222,12 +233,12 @@ public class LadderTableEntry {
 
 	@Override
 	public String toString() {
-		return "LadderTableEntry [rank=" + rank + ", rankDifference=" + rankDifference + ", character=" + character
-				+ ", dead=" + dead + ", account=" + account + ", level=" + level + ", theClass=" + theClass
-				+ ", experience=" + experience + ", challenges=" + challenges + ", online=" + online + ", twitch="
-				+ twitch + ", xph=" + xph + ", xphDifference=" + xphDifference + ", levelProgressBar="
-				+ levelProgressBar + ", timeStamp=" + timeStamp + ", leagueName=" + leagueName + ", leagueId="
-				+ leagueId + "]";
+		return "LadderTableEntry [id=" + id + ", characterId=" + characterId + ", rank=" + rank + ", rankDifference="
+				+ rankDifference + ", character=" + character + ", dead=" + dead + ", account=" + account + ", level="
+				+ level + ", theClass=" + theClass + ", experience=" + experience + ", challenges=" + challenges
+				+ ", online=" + online + ", twitch=" + twitch + ", xph=" + xph + ", xphDifference=" + xphDifference
+				+ ", levelProgressBar=" + levelProgressBar + ", timeStamp=" + timeStamp + ", leagueName=" + leagueName
+				+ ", leagueId=" + leagueId + "]";
 	}
 
 }

@@ -56,7 +56,7 @@ public class LeagueComparisionService {
 		for (LadderTableEntry newDatasetEntry : newDataset) {
 		for (LadderTableEntry currentDatasetEntry : currentDataset) {
 	
-				if (newDatasetEntry.getCharacter().equals(currentDatasetEntry.getCharacter())) {
+				if (newDatasetEntry.getCharacterId().equals(currentDatasetEntry.getCharacterId())) {
 					LadderTableEntry latestMatchingEnty = new LadderTableEntry();
 					System.out.println("+++++++ Match Found ++++++++++");
 

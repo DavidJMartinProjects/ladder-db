@@ -75,6 +75,7 @@ public class CustomLeagueRequestService {
 		entry = new LadderTableEntry();
 		entry.setLeagueName(leagueName);
 		entry.setLeagueId(leagueId);
+		entry.setCharacterId(responseEntry.getCharacter().getId());
 		entry.setRank(responseEntry.getRank());
 		entry.setOnline(responseEntry.getOnline());
 		entry.setCharacter(responseEntry.getCharacter().getName());
