@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import com.project.controller.CustomLeagueRepository;
+import com.project.controller.LeagueIdDetails;
+import com.project.controller.LeagueIdDetailsRepository;
 import com.project.domain.datatable.LadderTableEntry;
 import com.project.domain.ladder.Entries;
 import com.project.domain.ladder.Ladder;
@@ -32,6 +34,9 @@ public class CustomLeagueRequestService {
 	@Autowired
 	LeagueComparisionService leagueComparisionService;
 	
+	@Autowired
+	LeagueIdDetailsRepository leagueIdDetailsRepository;
+	
 	Map<String, List<LadderTableEntry>> parsedLeagues = new HashMap<>();
 	private List<LadderTableEntry> newDataset = new ArrayList<>();
 	private List<LadderTableEntry> currentDataset = new ArrayList<>();
@@ -40,6 +45,21 @@ public class CustomLeagueRequestService {
 	
 	private HttpHeaders headers = new HttpHeaders();
 	private HttpEntity<String> entity;
+	
+	public List<LadderTableEntry> getCurrentDataset(String leagueId, String leagueName) throws InterruptedException {
+		String trimmedLeagueId = leagueId.replace("(", "").replace(")", "").trim();
+		String trimmedLeagueName = leagueName.trim();
+		
+		List<LeagueIdDetails> currentLeagueIds = leagueIdDetailsRepository.fetchCustomLadderDetailsFromDb();
+		for(LeagueIdDetails leagueIdDetails : currentLeagueIds) { // check db for league
+			if(leagueIdDetails.getLeague_id().equals(trimmedLeagueId)) {
+				System.out.println("leagueId found on Db - calling DB for response");
+				return getUpdatedLadderFromDb(trimmedLeagueId, trimmedLeagueName);
+			}
+		}
+		System.out.println("leagueId NOT found on Db - calling poe api for response");
+		return getCustomLeagueData(trimmedLeagueId, trimmedLeagueName);
+	}
 
 	public List<LadderTableEntry> getCustomLeagueData(String leagueId, String leagueName) throws InterruptedException {
 		String urlPostfix = leagueName + " " + "("+leagueId+")";
@@ -55,14 +75,6 @@ public class CustomLeagueRequestService {
 		entires.stream()		
 			.forEach(e -> mapResponseToEntity(e, leagueId, leagueName));
 		Thread.sleep(500);
-		
-//		newDataset = customLeagueEntries;
-//		if(parsedLeagues.containsKey(leagueId)) {
-//			parsedLeagues.remove(leagueId);
-//			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
-//		} else {
-//			parsedLeagues.put(leagueId, new ArrayList<LadderTableEntry>(customLeagueEntries));
-//		}
 		
 		customLeagueEntries = leagueComparisionService.compareLeagues(customLeagueEntries, customLeagueEntries);
 		leagueRepository.deleteRedundantLeagueFromDb(leagueName);
@@ -113,22 +125,17 @@ public class CustomLeagueRequestService {
 		entity = new HttpEntity<String>("parameters", headers);
 	}
 	
-	public List<LadderTableEntry> getCurrentDataset(String leagueId, String leagueName) throws InterruptedException {
-		String trimmedLeagueId = leagueId.replace("(", "").replace(")", "").trim();
-		String trimmedLeagueName = leagueName.trim();
-//		activeLeagueService.addLeagueRequest(trimmedLeagueId, trimmedLeagueName);
-		System.out.println("Sucessfully parsed league : returning "+trimmedLeagueId+" data");
-		System.out.println("parsedLeagues " +parsedLeagues.keySet());
-		return getCustomLeagueData(trimmedLeagueId, trimmedLeagueName);
-	}
-	
-
 	public void saveToMySQL() {
 		System.out.println("saving to CustomLeague Data to SQL database : league Id = " + customLeagueEntries.get(0).getLeagueId());
-		System.out.println("Start of SQL Transfer.");
 		// calculate xph and rank difference here from sql database
 		leagueRepository.saveAll(customLeagueEntries);
 		leagueRepository.flush();
+		System.out.println("Transfer complete.");
+	}
+
+	public List<LadderTableEntry> getUpdatedLadderFromDb(String leagueId, String leagueName) {
+		List<LadderTableEntry> updatedLeagueData = leagueRepository.getCustomLeagueFromDb(leagueName);
+		return updatedLeagueData;
 	}
 
 }

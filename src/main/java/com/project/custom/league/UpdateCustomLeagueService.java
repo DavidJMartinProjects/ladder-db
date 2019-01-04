@@ -32,29 +32,21 @@ public class UpdateCustomLeagueService {
 	List<LadderTableEntry> oldLeagueData;
 	List<LadderTableEntry> newLeagueData;
 	
-	
 	public void updateCustomLeagues() throws InterruptedException {
 		List<LeagueIdDetails> currentLeagueIds = leagueIdDetailsRepository.fetchCustomLadderDetailsFromDb();
-		System.out.println("updateCustomLeagues() called. Current leagues : ");
+		System.out.println("updateCustomLeagues() called. Current Active leagues IDs : ");
+		currentLeagueIds.forEach(e -> System.out.println(e.getLeague_id()));
 		for(LeagueIdDetails leagueIdDetails : currentLeagueIds) {
 			oldLeagueData = new ArrayList<>();
 			newLeagueData = new ArrayList<>();
-			System.out.println("Current League Details" +leagueIdDetails.getLeague_id() +" "+ leagueIdDetails.getLeague_name());
 			List<LadderTableEntry> oldLeagueData = customLeagueRepository.getCustomLeagueFromDb(leagueIdDetails.getLeague_name());
-			System.out.println("league id : " +leagueIdDetails.getLeague_id()+ " oldLeagueData size : " +oldLeagueData.size());
-			oldLeagueData.forEach(System.out::println);
 			List<LadderTableEntry> newLeagueData = customLeagueRequestService.getCustomLeagueData(leagueIdDetails.getLeague_id(), leagueIdDetails.getLeague_name());
-			System.out.println("league id : " +leagueIdDetails.getLeague_id()+ " newLeagueData size : " +newLeagueData.size());
-			newLeagueData.forEach(System.out::println);
 			List<LadderTableEntry> calculatedLadder = leagueComparisionService.compareLeagues(oldLeagueData, newLeagueData);
 			customLeagueRepository.deleteRedundantLeagueFromDb(leagueIdDetails.getLeague_name());
-			System.out.println("------- Old League Deleted. ---------");
-			System.out.println("calculatedLadder.size() before saving to sql : "+calculatedLadder.size());
-			
 			if(!calculatedLadder.isEmpty()) {
 				leagueRepository.saveAll(calculatedLadder);
 				leagueRepository.flush();
-				System.out.println("------- New League Saved. ---------");
+				System.out.println("------- Active League "+ leagueIdDetails.getLeague_name()+" Successfully Updated. ---------");
 			}
 		}
 	}

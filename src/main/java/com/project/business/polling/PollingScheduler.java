@@ -35,11 +35,11 @@ class PollingScheduler {
 			Runtime.getRuntime().gc();
 			Date date1 = new Date();
 			System.out.println("****************************************");
-			System.out.println("======== Poll Request Recieved. ========");
+			System.out.println("======== Poll Request Recieved : Updating top-ten ladders ========");
 			topTenApiRequestService.getTopTenLadderData();
 			Date date2 = new Date();
 			computeDiff(date1, date2);
-			System.out.println("======== Poll Request Complete. ========");
+			System.out.println("======== Poll Request Complete : top-ten ladders successfully updated ========");
 			System.out.println("Processing Time : " + computeDiff(date1, date2).toString());
 			System.out.println("****************************************");
 			java.lang.Thread.sleep(10000);
@@ -51,7 +51,15 @@ class PollingScheduler {
 	
 	@Scheduled(initialDelay = 3000, fixedRate = 300000)
 	public void updateCustomLeagues() throws InterruptedException {
+		Runtime.getRuntime().gc();
+		Date date1 = new Date();
+		System.out.println("======== Poll Request Recieved : Updating active league ladders ladders ========");
 		updateCustomLeagueService.updateCustomLeagues();
+		Date date2 = new Date();
+		computeDiff(date1, date2);
+		System.out.println("======== Poll Request Complete : active league ladders successfully updated ========");
+		System.out.println("Processing Time : " + computeDiff(date1, date2).toString());
+		System.out.println("****************************************");
 	}
 
 	public static Map<TimeUnit, Long> computeDiff(Date date1, Date date2) {

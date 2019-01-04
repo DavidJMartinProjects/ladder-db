@@ -57,17 +57,11 @@ public class LeagueComparisionService {
 		for (LadderTableEntry currentDatasetEntry : currentDataset) {
 	
 				if (newDatasetEntry.getCharacterId().equals(currentDatasetEntry.getCharacterId())) {
-					LadderTableEntry latestMatchingEnty = new LadderTableEntry();
-					System.out.println("+++++++ Match Found ++++++++++");
-
 					// character match then calculate xph
-
 					latest = new String(newDatasetEntry.getExperience());
 					latest.replaceAll(",", "");
 					current = new String(currentDatasetEntry.getExperience());
 					current.replaceAll(",", "");
-					System.out.println("latest : " + latest);
-					System.out.println("current : " + current);
 
 					Long newXPPH, oldXPPH, newRank, oldRank;
 					if (latest.isEmpty() || latest == null) {
@@ -75,7 +69,6 @@ public class LeagueComparisionService {
 					} else {
 						newXPPH = Long.parseLong(latest.replaceAll(",", ""));
 					}
-					System.out.println("newXPPH : " + newXPPH);
 
 					if (current.isEmpty() || current == null) {
 						oldXPPH = new Long(0);

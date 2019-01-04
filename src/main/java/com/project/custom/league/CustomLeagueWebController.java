@@ -23,5 +23,5 @@ public class CustomLeagueWebController {
 	public List<LadderTableEntry> getLadderRankings(@RequestParam(value = "leagueId") String leagueId, @RequestParam(value = "leagueName") String leagueName) throws InterruptedException {
 		return customLeagueRequestService.getCurrentDataset(leagueId, leagueName);
 	}
-
+	
 }
