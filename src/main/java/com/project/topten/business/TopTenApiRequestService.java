@@ -36,7 +36,6 @@ public class TopTenApiRequestService {
 	public void getTopTenLadderData() throws InterruptedException {
 		List<String> leaguesList = topTenUtil.getLeagueNamesAsList();
 		leaguesList.forEach(System.out::println);
-
 		userRepository.deleteAll();
 		userRepository.flush();
 		for (String league : leaguesList) {
@@ -46,14 +45,13 @@ public class TopTenApiRequestService {
 	}
 
 	public void saveToMySQL(TopTenLeague topTenLeague) {
-		System.out.println("saving to Delve Data to SQL database : " + topTenLeague.getTableDataDelve());
-		System.out.println("Start of SQL Transfer.");
+		System.out.println("Saving top-ten ladders : Start of SQL Transfer.");
 		// calculate xph and rank difference here from sql database
 		userRepository.saveAll(topTenLeague.getTableDataDelve());
 		userRepository.saveAll(topTenLeague.getTableDataUberLabTopTen());
 		userRepository.saveAll(topTenLeague.getTableDataRaceTo100());
 		userRepository.flush();
-		System.out.println("SQL Transfer complete.");
+		System.out.println("top-ten ladder save successfuly : SQL Transfer complete.");
 
 	}
 
