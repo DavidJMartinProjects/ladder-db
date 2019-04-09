@@ -14,10 +14,10 @@ public class CurrentLeagueService {
 	}
 
 	public List getLeagues() {
-		leagues.add("Incursion Event (IRE001)");
-		leagues.add("Incursion Event HC (IRE002)");
-		leagues.add("SSF Incursion Event (IRE003)");
-		leagues.add("SSF Incursion Event HC (IRE004)");		
+		leagues.add("Synthesis Event (IRE001)");
+		leagues.add("Synthesis Event HC (IRE002)");
+		leagues.add("SSF Synthesis Event (IRE003)");
+		leagues.add("SSF Synthesis Event HC (IRE004)");		
 		return leagues;
 	}
 
