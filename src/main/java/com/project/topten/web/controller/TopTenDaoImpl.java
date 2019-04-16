@@ -38,10 +38,10 @@ public class TopTenDaoImpl {
 		}
 
 //		List<LadderTableEntryEntity> topTenLadder= userRepository.findAll();
-		topTenLadderResponse.addToLeagueHC(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Hardcore Betrayal"));
-		topTenLadderResponse.addToLeagueHCSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Betrayal HC"));
-		topTenLadderResponse.addToLeagueSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Betrayal"));
-		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Betrayal"));
+		topTenLadderResponse.addToLeagueHC(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Hardcore Synthesis"));
+		topTenLadderResponse.addToLeagueHCSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Synthesis HC"));
+		topTenLadderResponse.addToLeagueSFF(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "SSF Synthesis"));
+		topTenLadderResponse.addToLeagueStd(buildTopTenResponse(userRepository.fetchFilteredTopTenLadder(), "Synthesis"));
 //		System.out.println("================= Print Standard League Delve ladder ========================");
 //		topTenLadderResponse.getLeagueStd().getTableDataDelve().forEach(System.out::println);
 		return topTenLadderResponse;
